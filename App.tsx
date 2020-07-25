@@ -1,4 +1,5 @@
 import 'mobx-react-lite/batchingForReactNative';
+import 'react-native-gesture-handler';
 import React, { FC } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
