@@ -30,12 +30,14 @@ const SignUpPageScreen: FC<SignUpPageScreenProps> = ({ navigation }) => {
           onChangeText={() => {}}
           placeholder="password"
           defaultValue=""
+          secureTextEntry={true}
         />
         <TextInput
           style={styles.input}
           onChangeText={() => {}}
           placeholder="confirm password"
           defaultValue=""
+          secureTextEntry={true}
         />
         <CheckBox
           iconRight

@@ -26,6 +26,7 @@ const SignInPageScreen: FC<SignInPageScreenProps> = ({ navigation }) => {
           onChangeText={() => {}}
           placeholder="password"
           defaultValue=""
+          secureTextEntry={true}
         />
         <MainButton onPress={() => {}} color="#6EC5D6">
           SIGN IN
