@@ -4,15 +4,25 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import MainButton from '../components/MainButton';
 
-const WelcomePageScreen: FC = () => {
+interface WelcomePageScreenProps {
+  navigation: any;
+}
+
+const WelcomePageScreen: FC<WelcomePageScreenProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require('../assets/al-logo.png')} style={styles.logo} />
       <View style={styles.buttonContainer}>
-        <MainButton onPress={() => {}} color="#DE0160">
+        <MainButton
+          onPress={() => navigation.navigate('SignUpPage')}
+          color="#DE0160"
+        >
           SIGN UP
         </MainButton>
-        <MainButton onPress={() => {}} color="#6EC5D6">
+        <MainButton
+          onPress={() => navigation.navigate('SignInPage')}
+          color="#6EC5D6"
+        >
           SIGN IN
         </MainButton>
       </View>
@@ -33,7 +43,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
-    marginTop: '80%',
+    marginTop: '70%',
   },
 });
 
