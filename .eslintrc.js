@@ -29,5 +29,6 @@ module.exports = {
     'react-native/sort-styles': 'off',
     'react-native/no-raw-text': 'off',
     'react-native/no-inline-styles': 'off',
+    'react/display-name': 'off',
   },
 };
