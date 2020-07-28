@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,27 +8,58 @@ import Header from '../components/Header';
 
 interface SignInPageScreenProps {
   navigation: any;
+  store: any;
 }
 
-const SignInPageScreen: FC<SignInPageScreenProps> = ({ navigation }) => {
+const SignInPageScreen: FC<SignInPageScreenProps> = ({ navigation, store }) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  useEffect(() => {
+    store.changeSignInEmail(email);
+    store.changeSignInPassword(password);
+  }, [email, password, store.signInSuccess]);
+
+  const clearFields = (): void => {
+    setEmail('');
+    setPassword('');
+  };
+
+  const sendData = (): void => {
+    if (email && password) {
+      store.signIn();
+      clearFields();
+      useRoute();
+    }
+  };
+
+  const useRoute = () => {
+    if (store.signInSuccess === 200) {
+      navigation.navigate('MainPage');
+    }
+  };
+
+  store.signInSuccess === 200 ? navigation.navigate('MainPage') : null;
+
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Back" onPress={() => navigation.goBack()} />
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={() => {}}
+          onChangeText={(value) => setEmail(value)}
           placeholder="email"
-          defaultValue=""
+          defaultValue={email}
+          autoCapitalize="none"
         />
         <TextInput
           style={styles.input}
-          onChangeText={() => {}}
+          onChangeText={(value) => setPassword(value)}
           placeholder="password"
-          defaultValue=""
+          defaultValue={password}
           secureTextEntry={true}
         />
-        <MainButton onPress={() => {}} color="#6EC5D6">
+        <MainButton onPress={sendData} color="#6EC5D6">
           SIGN IN
         </MainButton>
       </View>
