@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,10 +10,35 @@ import MainButton from '../components/MainButton';
 
 interface SignUpPageScreenProps {
   navigation: any;
+  store: any;
 }
 
-const SignUpPageScreen: FC<SignUpPageScreenProps> = ({ navigation }) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+const SignUpPageScreen: FC<SignUpPageScreenProps> = ({ navigation, store }) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordConfirm, setPasswordConfirm] = useState<string>('');
+  const [termsOfUse, setTermsOfUse] = useState<boolean>(false);
+
+  useEffect(() => {
+    store.changeEmail(email);
+    store.changePassword(password);
+    store.changePasswordConfirm(passwordConfirm);
+    store.changeTermsOfUse(termsOfUse);
+  }, [email, password, passwordConfirm, termsOfUse]);
+
+  const clearFields = (): void => {
+    setEmail('');
+    setPassword('');
+    setPasswordConfirm('');
+    setTermsOfUse(false);
+  };
+
+  const sendData = (): void => {
+    if (email && password && passwordConfirm && termsOfUse) {
+      store.signUp();
+      clearFields();
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -21,29 +46,30 @@ const SignUpPageScreen: FC<SignUpPageScreenProps> = ({ navigation }) => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={() => {}}
+          onChangeText={(value) => setEmail(value)}
           placeholder="email"
-          defaultValue=""
+          defaultValue={email}
+          autoCapitalize="none"
         />
         <TextInput
           style={styles.input}
-          onChangeText={() => {}}
+          onChangeText={(value) => setPassword(value)}
           placeholder="password"
-          defaultValue=""
+          defaultValue={password}
           secureTextEntry={true}
         />
         <TextInput
           style={styles.input}
-          onChangeText={() => {}}
+          onChangeText={(value) => setPasswordConfirm(value)}
           placeholder="confirm password"
-          defaultValue=""
+          defaultValue={passwordConfirm}
           secureTextEntry={true}
         />
         <CheckBox
           iconRight
           title="Terms of use:"
-          checked={isChecked}
-          onPress={() => setIsChecked((value) => !value)}
+          checked={termsOfUse}
+          onPress={() => setTermsOfUse((value) => !value)}
           checkedIcon={<Icon name="checkmark" size={35} color="#00907B" />}
           uncheckedIcon={
             <Icon name="close-outline" size={35} color="#E00025" />
@@ -51,7 +77,7 @@ const SignUpPageScreen: FC<SignUpPageScreenProps> = ({ navigation }) => {
           containerStyle={styles.checkbox}
           textStyle={styles.checkboxTitle}
         />
-        <MainButton onPress={() => {}} color="#DE0160">
+        <MainButton onPress={sendData} color="#DE0160">
           SIGN UP
         </MainButton>
       </View>
