@@ -1,4 +1,5 @@
 import { observable, configure, action } from 'mobx';
+import AsyncStorage from '@react-native-community/async-storage';
 
 configure({ enforceActions: 'observed' });
 
@@ -16,6 +17,7 @@ type OldUser = {
 
 class Store {
   private apiBase: string = 'https://dev.addictivelearning.io/api/v1';
+  private STORAGE_KEY: string = '@save_auth';
 
   @observable newUser: NewUser = {
     email: '',
@@ -30,6 +32,7 @@ class Store {
   };
 
   @observable signInSuccess: number = 0;
+  @observable authStatus: string = '';
 
   @action changeEmail = (email: string): void => {
     this.newUser.email = email;
@@ -57,6 +60,28 @@ class Store {
 
   @action changeSignInSuccess = (value: number) => {
     this.signInSuccess = value;
+  };
+
+  @action changeAuthStatus = (value: string) => {
+    this.authStatus = value;
+  };
+
+  @action saveAuthStatus = async () => {
+    try {
+      await AsyncStorage.setItem(this.STORAGE_KEY, this.authStatus);
+      console.log('Data successfully saved');
+    } catch (error) {
+      console.log('Failed to save the data to the storage:', error);
+    }
+  };
+
+  @action clearStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('Storage successfully cleared!');
+    } catch (error) {
+      console.log('Failed to clear the async storage:', error);
+    }
   };
 
   @action.bound
@@ -108,6 +133,7 @@ class Store {
             console.log('Response status:', response.status);
           }
         })
+        .then(() => this.saveAuthStatus())
         .catch((error) => console.log('Error:', error));
     }
   };
@@ -135,11 +161,13 @@ class Store {
     })
       .then((response) => {
         if (response.status === 200) {
-          console.log('Get Current User', response.status);
+          this.changeSignInSuccess(0);
+          console.log('Log Out:', response.status);
         } else {
           console.log('Response status:', response.status);
         }
       })
+      .then(() => this.clearStorage())
       .catch((error) => console.log('Error:', error));
   };
 }
