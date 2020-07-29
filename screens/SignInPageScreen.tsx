@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View, Dimensions } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    marginTop: '50%',
+    marginTop: Dimensions.get('window').height / 3.7,
   },
   input: {
     height: 40,

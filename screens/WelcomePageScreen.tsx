@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
   logo: {
     width: '25%',
     height: '25%',
-    marginTop: '30%',
+    marginTop: Dimensions.get('window').height / 7,
   },
   buttonContainer: {
     width: '100%',
-    marginTop: '70%',
+    marginTop: Dimensions.get('window').height / 3.5,
   },
 });
 
