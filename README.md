@@ -1,7 +1,8 @@
 # [Addictive Learning](https://addictivelearning.io) Test Task
 
 This is a project that shows the usage of [React Native](https://reactnative.dev) and [MobX](https://mobx.js.org/README.html). <br />
-This project was bootstrapped with [React Native CLI](https://reactnative.dev/docs/environment-setup).
+This project was bootstrapped with [React Native CLI](https://reactnative.dev/docs/environment-setup). <br />
+`addictivelearning-expo.zip` — this project was bootstrapped with [Expo CLI](https://expo.io).
 
 ![screens](./assets/screens.png)
 
