@@ -1,14 +1,37 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { StyleSheet, Image, View } from 'react-native';
+import { inject, observer } from 'mobx-react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import MainButton from '../components/MainButton';
 
 interface WelcomePageScreenProps {
   navigation: any;
+  store: any;
 }
 
-const WelcomePageScreen: FC<WelcomePageScreenProps> = ({ navigation }) => {
+const WelcomePageScreen: FC<WelcomePageScreenProps> = ({
+  navigation,
+  store,
+}) => {
+  useEffect(() => {
+    readAuthStatus().then(() => console.log('AuthStatus: OK'));
+  }, []);
+
+  const readAuthStatus = async () => {
+    try {
+      const userAuth = await AsyncStorage.getItem('@save_auth');
+
+      if (userAuth !== null) {
+        store.changeAuthStatus(userAuth);
+        navigation.navigate('MainPage');
+      }
+    } catch (error) {
+      console.log('Failed to fetch the data from storage:', error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Image source={require('../assets/al-logo.png')} style={styles.logo} />
@@ -47,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WelcomePageScreen;
+export default inject('store')(observer(WelcomePageScreen));
