@@ -29,13 +29,6 @@ const SignInPageScreen: FC<SignInPageScreenProps> = ({ navigation, store }) => {
     if (email && password) {
       store.signIn();
       clearFields();
-      useRoute();
-    }
-  };
-
-  const useRoute = () => {
-    if (store.signInSuccess === 200) {
-      navigation.navigate('MainPage');
     }
   };
 
