@@ -20,6 +20,14 @@ npm install
 
 Install the dependencies in the local node_modules folder. `yarn install` or `npm install` will install all modules listed as dependencies in package.json.
 
+#### Pod Install:
+
+```
+npx pod-install
+```
+
+This command is to be used to retrieve the pods for the project.
+
 #### iOS:
 
 ```bash
