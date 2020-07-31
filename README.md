@@ -18,7 +18,7 @@ yarn install
 npm install
 ```
 
-Install the dependencies in the local node_modules folder. `yarn install` or `npm install` will install all modules listed as dependencies in package.json.
+Install the dependencies in the local `node_modules` folder. The command will install all modules listed as dependencies in `package.json`.
 
 #### Pod Install:
 
