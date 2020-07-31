@@ -16,21 +16,8 @@ const WelcomePageScreen: FC<WelcomePageScreenProps> = ({
   store,
 }) => {
   useEffect(() => {
-    readAuthStatus().then(() => console.log('AuthStatus: OK'));
+    store.loadAsyncData(navigation);
   }, []);
-
-  const readAuthStatus = async () => {
-    try {
-      const userAuth = await AsyncStorage.getItem('@save_auth');
-
-      if (userAuth !== null) {
-        store.changeAuthStatus(userAuth);
-        navigation.navigate('MainPage');
-      }
-    } catch (error) {
-      console.log('Failed to fetch the data from storage:', error);
-    }
-  };
 
   return (
     <SafeAreaView style={styles.container}>
