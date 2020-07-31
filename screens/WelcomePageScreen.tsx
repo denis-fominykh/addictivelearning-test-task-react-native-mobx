@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react';
 import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import MainButton from '../components/MainButton';
 

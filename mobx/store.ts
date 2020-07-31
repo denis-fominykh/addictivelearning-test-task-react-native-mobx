@@ -82,7 +82,7 @@ class Store {
     } catch (error) {
       console.log('Remove Auth Error:', error);
     }
-  }
+  };
 
   @action loadAsyncData = async (navigation: any) => {
     try {
