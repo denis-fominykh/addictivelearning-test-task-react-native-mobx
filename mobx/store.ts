@@ -17,7 +17,7 @@ type OldUser = {
 
 class Store {
   private apiBase: string = 'https://dev.addictivelearning.io/api/v1';
-  private STORAGE_KEY: string = '@save_auth';
+  private AUTH_KEY: string = '@save_auth';
 
   @observable newUser: NewUser = {
     email: '',
@@ -32,7 +32,7 @@ class Store {
   };
 
   @observable signInSuccess: number = 0;
-  @observable authStatus: string = '';
+  @observable authStatus: boolean = false;
 
   @action changeEmail = (email: string): void => {
     this.newUser.email = email;
@@ -62,25 +62,37 @@ class Store {
     this.signInSuccess = value;
   };
 
-  @action changeAuthStatus = (value: string) => {
+  @action changeAuthStatus = (value: boolean) => {
     this.authStatus = value;
   };
 
-  @action saveAuthStatus = async () => {
+  @action saveAuth = async (key: string, authStatus: boolean) => {
     try {
-      await AsyncStorage.setItem(this.STORAGE_KEY, this.authStatus);
-      console.log('Data successfully saved');
+      await AsyncStorage.setItem(key, JSON.stringify(authStatus));
+      this.changeAuthStatus(authStatus);
     } catch (error) {
-      console.log('Failed to save the data to the storage:', error);
+      console.log('Save Auth Error:', error);
     }
   };
 
-  @action clearStorage = async () => {
+  @action removeAuth = async (key: string, authStatus: boolean) => {
     try {
-      await AsyncStorage.clear();
-      console.log('Storage successfully cleared!');
+      await AsyncStorage.removeItem(key);
+      this.changeAuthStatus(authStatus);
     } catch (error) {
-      console.log('Failed to clear the async storage:', error);
+      console.log('Remove Auth Error:', error);
+    }
+  }
+
+  @action loadAsyncData = async (navigation: any) => {
+    try {
+      const authStatus = await AsyncStorage.getItem(this.AUTH_KEY);
+      if (authStatus !== null) {
+        this.changeAuthStatus(JSON.parse(authStatus));
+        navigation.navigate('MainPage');
+      }
+    } catch (error) {
+      console.log('Load Async Data Error:', error);
     }
   };
 
@@ -127,13 +139,13 @@ class Store {
         .then((response) => {
           if (response.status === 200) {
             this.changeSignInSuccess(response.status);
+            this.saveAuth(this.AUTH_KEY, !!response.status);
             console.log('Sign In:', response.status);
             console.log('Sign In Success:', this.signInSuccess);
           } else {
             console.log('Response status:', response.status);
           }
         })
-        .then(() => this.saveAuthStatus())
         .catch((error) => console.log('Error:', error));
     }
   };
@@ -146,6 +158,7 @@ class Store {
       .then((response) => {
         if (response.status === 200) {
           this.changeSignInSuccess(0);
+          this.removeAuth(this.AUTH_KEY, !response.status);
           console.log('Log Out:', response.status);
         } else {
           console.log('Response status:', response.status);
@@ -161,13 +174,11 @@ class Store {
     })
       .then((response) => {
         if (response.status === 200) {
-          this.changeSignInSuccess(0);
-          console.log('Log Out:', response.status);
+          console.log('Get Current User:', response.status);
         } else {
           console.log('Response status:', response.status);
         }
       })
-      .then(() => this.clearStorage())
       .catch((error) => console.log('Error:', error));
   };
 }
