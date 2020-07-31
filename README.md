@@ -28,6 +28,16 @@ npx pod-install
 
 This command is to be used to retrieve the pods for the project.
 
+#### Build .apk:
+
+```
+cd android
+./gradlew assembleRelease
+```
+
+Generating the release APK for Android.<br />
+Path to file: `android/app/build/outputs/apk/release/app-release.apk`
+
 #### iOS:
 
 ```bash
