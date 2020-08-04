@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { StyleSheet, Image, View, Dimensions } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import SplashScreen from 'react-native-splash-screen';
 
 import MainButton from '../components/MainButton';
 
@@ -15,6 +16,7 @@ const WelcomePageScreen: FC<WelcomePageScreenProps> = ({
   store,
 }) => {
   useEffect(() => {
+    SplashScreen.hide();
     store.loadAsyncData(navigation);
   }, []);
 
