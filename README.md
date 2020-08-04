@@ -2,7 +2,7 @@
 
 This is a project that shows the usage of [React Native](https://reactnative.dev) and [MobX](https://mobx.js.org/README.html). <br />
 This project was bootstrapped with [React Native CLI](https://reactnative.dev/docs/environment-setup). <br />
-`app-release.zip` — an archive with the build release APK for Android.
+`apk-release.zip` — an archive with the build release APK for Android.
 
 ![screens](./assets/screens.png)
 
