@@ -42,6 +42,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SplashIcon" width="36" height="36"/>
+        <image name="SplashIcon" width="512" height="512"/>
     </resources>
 </document>
